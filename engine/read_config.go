@@ -74,5 +74,13 @@ func (s *engine) NewAgentFromConfig(
 	a.Metadata = ac.Metadata
 	a.Knowledge = ac.Knowledge
 
+	// Index knowledge for RAG if available
+	if len(ac.Knowledge) > 0 {
+		if err := s.IndexKnowledge(ctx, a.Name, ac.Knowledge); err != nil {
+			s.logger.Warn("failed to index knowledge for agent", "agent", a.Name, "error", err)
+			// Continue without failing agent creation
+		}
+	}
+
 	return &a, nil
 }

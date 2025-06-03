@@ -139,3 +139,11 @@ func WithToolConfig(toolConfig *config.ToolConfig) func(e *AIEngine) {
 		e.toolConfig = toolConfig
 	}
 }
+
+func (a *AIEngine) IndexKnowledge(ctx context.Context, agentName string, knowledge []map[string]any) error {
+	return a.engine.IndexKnowledge(ctx, agentName, knowledge)
+}
+
+func (a *AIEngine) RetrieveRelevantKnowledge(ctx context.Context, agentName string, query string, limit int) ([]string, error) {
+	return a.engine.RetrieveRelevantKnowledge(ctx, agentName, query, limit)
+}

@@ -19,6 +19,47 @@
 - **Tool Extensibility**: Easily extend agent capabilities with custom tools and integrations
 - **Thread Management**: Maintain conversation state and history across multiple interactions
 - **Agent Orchestration**: Coordinate multiple agents working together to solve complex tasks
+- **RAG (Retrieval-Augmented Generation)**: Dynamic knowledge retrieval using vector embeddings for context-aware responses
+
+### RAG (Retrieval-Augmented Generation) Support
+
+AgentRuntime includes built-in RAG functionality powered by [sqlite-vec](https://github.com/asg017/sqlite-vec), enabling agents to have dynamic, context-aware access to their knowledge base.
+
+#### Features
+- **Automatic Knowledge Indexing**: Agent knowledge is automatically indexed into vector embeddings when agents are created
+- **Context-Aware Retrieval**: Relevant knowledge is retrieved based on conversation context
+- **Vector Similarity Search**: Uses OpenAI embeddings with sqlite-vec for fast, accurate retrieval
+- **Graceful Degradation**: Falls back to static knowledge if RAG is unavailable
+
+#### Quick Setup
+
+1. **Install sqlite-vec extension**:
+   ```bash
+   # Use the provided installation script
+   ./scripts/install-sqlite-vec.sh
+   
+   # Or install manually from https://github.com/asg017/sqlite-vec/releases
+   ```
+
+2. **Configure agent with knowledge**:
+   ```yaml
+   name: TravelAgent
+   model: openai/gpt-4o
+   knowledge:
+     - cityName: Seoul
+       aliases: Seoul, SEOUL, KOR, Korea
+       info: Capital city of South Korea
+     - cityName: Tokyo
+       aliases: Tokyo, TYO, Japan
+       info: Capital city of Japan
+   ```
+
+3. **Knowledge is automatically indexed and retrieved during conversations**:
+   - When the agent is created, knowledge is indexed into vector embeddings
+   - During conversations, relevant knowledge is retrieved based on context
+   - Retrieved knowledge is injected into the agent's prompt for accurate responses
+
+For detailed RAG documentation, see [internal/rag/README.md](internal/rag/README.md).
 
 The platform consists of three core components:
 

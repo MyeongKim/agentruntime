@@ -21,6 +21,7 @@ require (
 	github.com/jcooky/go-din v0.1.3-0.20250527064037-12e6144ddc28
 	github.com/lmittmann/tint v1.0.7
 	github.com/mark3labs/mcp-go v0.23.1
+	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/mokiat/gog v0.15.0
 	github.com/openai/openai-go v0.1.0-alpha.65
@@ -72,7 +73,6 @@ require (
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
-	github.com/mattn/go-sqlite3 v1.14.28 // indirect
 	github.com/mbleigh/raymond v0.0.0-20250414171441-6b3a58ab9e0a // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect

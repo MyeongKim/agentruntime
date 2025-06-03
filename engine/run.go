@@ -97,6 +97,34 @@ func (s *engine) Run(
 		},
 	}
 
+	// Retrieve relevant knowledge using RAG
+	var ragKnowledge []string
+	if len(req.History) > 0 {
+		// Use the most recent conversation as context for knowledge retrieval
+		lastConversation := req.History[len(req.History)-1]
+		queryContext := lastConversation.Text
+		if queryContext == "" && len(lastConversation.Actions) > 0 {
+			// If no text, use action names as context
+			actionNames := make([]string, len(lastConversation.Actions))
+			for i, action := range lastConversation.Actions {
+				actionNames[i] = action.Name
+			}
+			queryContext = strings.Join(actionNames, " ")
+		}
+
+		if queryContext != "" {
+			retrievedKnowledge, err := s.RetrieveRelevantKnowledge(ctx, agent.Name, queryContext, 5)
+			if err != nil {
+				s.logger.Warn("failed to retrieve relevant knowledge", "agent", agent.Name, "error", err)
+			} else {
+				ragKnowledge = retrievedKnowledge
+			}
+		}
+	}
+
+	// Set the retrieved knowledge
+	instValues.Knowledge = ragKnowledge
+
 	// build available actions
 	tools := make([]ai.ToolRef, 0, len(agent.Tools))
 	for _, tool := range agent.Tools {
